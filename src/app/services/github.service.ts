@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Response, URLSearchParams, Headers} from "@angular/http";
+import {Http, Response, URLSearchParams} from "@angular/http";
 import {Observable} from "rxjs";
 import {GithubUser} from "../models/github-user";
 
@@ -12,11 +12,11 @@ export class GithubService {
 
   getUser (handle: string): Observable<GithubUser> {
     const url = `${GITHUB_ROOT}/users/${handle}`;
-    let headers = new Headers();
-    headers.append('access_token', 'd2ad920f71ae7ff058587ed1454a02647024059d');
 
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('access_token', 'd2ad920f71ae7ff058587ed1454a02647024059d');
 
-    return this.http.get(url, { headers: headers })
+    return this.http.get(url, { search: params })
       .map(this.extractData)
       .catch(this.handleError);
   }
