@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {GithubUser} from "../models/github-user";
 
 const GITHUB_ROOT = 'https://api.github.com';
+const GITHUB_OATH_TOKEN = '3790dad2bf45d34fc576d057d63d535188652968';
 
 @Injectable()
 export class GithubService {
@@ -14,7 +15,7 @@ export class GithubService {
     const url = `${GITHUB_ROOT}/users/${handle}`;
 
     let params: URLSearchParams = new URLSearchParams();
-    params.set('access_token', 'd2ad920f71ae7ff058587ed1454a02647024059d');
+    params.set('access_token', GITHUB_OATH_TOKEN );
 
     return this.http.get(url, { search: params })
       .map(this.extractData)
