@@ -1,0 +1,9 @@
+<section>
+  <input type="text"
+         placeholder="enter your github handle"
+         [ngModel]="handle"
+
+         (ngModelChange)="onHandleChange($event)" />
+  <p>current handle: {{ handle }}</p>
+  <pre>current user {{ user | async | json }}</pre>
+</section>
