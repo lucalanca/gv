@@ -6,7 +6,7 @@ import {GithubHandleSearchComponent} from "./components/github-handle-search/git
 import {CounterComponent} from "./components/counter/counter.component";
 
 const appRoutes: Routes = [
-  { path: 'users/:handle', component: GithubUserCvComponent },
+  { path: ':handle', component: GithubUserCvComponent },
   { path: '', component: GithubHandleSearchComponent },
   { path: 'counter', component: CounterComponent }
 ];
