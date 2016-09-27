@@ -1,0 +1,5 @@
+<a class="user-link" [routerLink]="['/users/' + user.login]">
+  <img src="{{ user.avatar_url }}" class="user-link__avatar" />
+  <p class="user-link__username">@{{ user.login }}</p>
+</a>
+

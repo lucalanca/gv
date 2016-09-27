@@ -1,0 +1,27 @@
+<section>
+  <div *ngIf="user">
+    <h1>{{ user.login }} ({{ user.name }})</h1>
+    <p>{{ user.location }}</p>
+    <a href="{{ user.blog }}">website</a>
+    <img [src]="user.avatar_url" />
+  </div>
+
+  <div *ngIf="repos">
+    <ul>
+      <li *ngFor="let repo of repos">
+        {{ repo.name }} ({{ repo.stargazers_count }} *) - {{ repo.language }}
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="gists">
+    <ul>
+      <li *ngFor="let gist of gists">
+        <pre>{{ gist | json }}</pre>
+      </li>
+    </ul>
+  </div>
+
+
+
+</section>

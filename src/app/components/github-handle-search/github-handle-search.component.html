@@ -1,9 +1,11 @@
-<section>
+<section class="github-handle-search">
   <input type="text"
          placeholder="enter your github handle"
-         [ngModel]="handle"
+         [formControl]="handleControl" />
 
-         (ngModelChange)="onHandleChange($event)" />
-  <p>current handle: {{ handle }}</p>
-  <pre>current user {{ user | async | json }}</pre>
+  <ul class="github-handle-search__results">
+    <li *ngFor="let user of users | async">
+      <app-github-user-link [user]="user"></app-github-user-link>
+    </li>
+  </ul>
 </section>
