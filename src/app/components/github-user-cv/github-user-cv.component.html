@@ -12,6 +12,8 @@
       <tr>
         <td>Name</td>
         <td>Stars</td>
+        <td>Created at</td>
+        <td>Pushed at</td>
         <td>Main language</td>
         <td>All languages</td>
       </tr>
@@ -20,20 +22,12 @@
       <tr *ngFor="let repo of repos">
         <td>{{ repo.name }}</td>
         <td>{{ repo.stargazers_count }}</td>
+        <td>{{ repo.created_at | toDate | amTimeAgo  }}</td>
+        <td>{{ repo.pushed_at  | toDate | amTimeAgo }}</td>
         <td>{{ repo.language }}</td>
-        <td>{{ (reposLanguages[repo.full_name] ? reposLanguages[repo.full_name] : {}) | json }}</td>
+        {{ ( reposLanguages[repo.full_name] ? reposLanguages[repo.full_name] : 'Loading...') | json }}
+        <td></td>
       </tr>
     </tbody>
   </table>
-
-  <div *ngIf="gists">
-    <ul>
-      <li *ngFor="let gist of gists">
-        <pre>{{ gist | json }}</pre>
-      </li>
-    </ul>
-  </div>
-
-
-
 </section>

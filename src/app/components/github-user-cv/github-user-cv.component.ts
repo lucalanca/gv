@@ -17,11 +17,9 @@ import {GithubGist} from "../../models/github-gist";
   styleUrls: ['./github-user-cv.component.css']
 })
 export class GithubUserCvComponent implements OnInit {
-  loading: boolean;
   handle: string;
   user: GithubUser;
   repos: GithubRepo[];
-  gists: GithubGist[];
   reposLanguages: Object;
 
   constructor(private route: ActivatedRoute,
@@ -46,7 +44,6 @@ export class GithubUserCvComponent implements OnInit {
     this.setHandleFromRouter();
     this.selectFromStoreIntoProperty('user');
     this.selectFromStoreIntoProperty('repos');
-    this.selectFromStoreIntoProperty('gists');
     this.selectFromStoreIntoProperty('reposLanguages');
     this.store.dispatch(getUser(this.handle));
   }

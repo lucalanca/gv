@@ -22,7 +22,7 @@ export class GithubService {
 
   searchUsers (query: string): Observable<GithubSearchUsersResultItem[]> {
     return this.doGet('search/users', { q: query, sort: 'respositories' })
-      .map((response : GithubRequestData) => response.data)gigt
+      .map((response : GithubRequestData) => response.data)
       .map((result : GithubSearchUsersResult) => {
         return result.items
       });

@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import {GithubService, GithubRequestData} from '../github/github.service';
 import { Actions, Effect } from '@ngrx/effects';
 
-
-
-
 import {
   GET_USER, GET_USER_SUCCESS, getUserSuccess, getUserReposSuccess, getUserGistsSuccess,
   GET_USER_REPOS_SUCCESS, getRepoLanguagesSuccess
@@ -82,32 +79,22 @@ export class GithubEffectsService {
       });
     });
 
-  // @Effect() gists$ = this.actions$
-  // // Listen for the 'LOGIN' action
-  //   .ofType(GET_USER_SUCCESS)
-  //   // Map the payload into JSON to use as the request body
-  //   .map(action => action.payload)
-  //   .switchMap(user => {
-  //     return this.githubService.getUserGists(user.login)
-  //       .map((response: GithubRequestData) => getUserGistsSuccess(response.data))
-  //   });
-  //
-
-  // @Effect() languages$ = this.actions$
-  // // Listen for the 'LOGIN' action
-  //   .ofType(GET_USER_REPOS_SUCCESS)
-  //   // Map the payload into JSON to use as the request body
-  //   .map(action => action.payload)
-  //   .map((response: GithubRequestData) => response.data)
-  //   .switchMap((repos: GithubRepo[])=> {
-  //     return Observable.forkJoin(repos.map((repo: GithubRepo) => {
-  //       return this.githubService.getRepoLanguages(repo)
-  //         .map(languages => ({
-  //           repo,
-  //           languages
-  //         }));
-  //     }));
-  //   })
-  //   .map(reposLanguages => getRepoLanguagesSuccess(reposLanguages));
+  @Effect() languages$ = this.actions$
+  // Listen for the 'LOGIN' action
+    .ofType(GET_USER_REPOS_SUCCESS)
+    // Map the payload into JSON to use as the request body
+    .map(action => action.payload)
+    .switchMap((repos: GithubRepo[])=> {
+      return Observable.forkJoin(repos.map((repo: GithubRepo) => {
+        return this.githubService.getRepoLanguages(repo)
+          .map(languages => ({
+            repo,
+            languages
+          }));
+      }));
+    })
+    .map(reposLanguages => {
+      return getRepoLanguagesSuccess(reposLanguages)
+    });
 
 }

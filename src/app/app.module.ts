@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
+import { MomentModule } from 'angular2-moment';
+
 
 import { EffectsModule } from '@ngrx/effects';
 import { GithubEffectsService } from './services/github-effects/github-effects.service';
@@ -21,6 +23,7 @@ import { GithubUserLinkComponent } from './components/github-user-link/github-us
 import { GithubUserCvComponent } from './components/github-user-cv/github-user-cv.component';
 
 import { routing,  appRoutingProviders }  from './app.routing';
+import { ToDatePipe } from './to-date.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { routing,  appRoutingProviders }  from './app.routing';
     CounterComponent,
     GithubHandleSearchComponent,
     GithubUserLinkComponent,
-    GithubUserCvComponent
+    GithubUserCvComponent,
+    ToDatePipe
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,8 @@ import { routing,  appRoutingProviders }  from './app.routing';
     }),
     StoreLogMonitorModule,
     EffectsModule.run(GithubEffectsService),
-    routing
+    routing,
+    MomentModule
   ],
   providers: [GithubService, appRoutingProviders],
   bootstrap: [AppComponent]
