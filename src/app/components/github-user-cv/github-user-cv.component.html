@@ -6,13 +6,25 @@
     <img [src]="user.avatar_url" />
   </div>
 
-  <div *ngIf="repos">
-    <ul>
-      <li *ngFor="let repo of repos">
-        {{ repo.name }} ({{ repo.stargazers_count }} *) - {{ repo.language }}
-      </li>
-    </ul>
-  </div>
+  <h2>Repos</h2>
+  <table>
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Stars</td>
+        <td>Main language</td>
+        <td>All languages</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let repo of repos">
+        <td>{{ repo.name }}</td>
+        <td>{{ repo.stargazers_count }}</td>
+        <td>{{ repo.language }}</td>
+        <td>{{ (reposLanguages[repo.full_name] ? reposLanguages[repo.full_name] : {}) | json }}</td>
+      </tr>
+    </tbody>
+  </table>
 
   <div *ngIf="gists">
     <ul>

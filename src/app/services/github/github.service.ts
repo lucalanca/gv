@@ -9,6 +9,12 @@ import {GithubGist} from "../../models/github-gist";
 const GITHUB_ROOT = 'https://api.github.com';
 const GITHUB_OATH_TOKEN = '3790dad2bf45d34fc576d057d63d535188652968';
 
+export interface GithubRequestData {
+  data: any;
+  last: number | boolean;
+}
+
+
 @Injectable()
 export class GithubService {
 
@@ -21,16 +27,21 @@ export class GithubService {
       });
   }
 
-  getUser (handle: string): Observable<GithubUser> {
+  getUser (handle: string): Observable<GithubRequestData> {
     return this.doGet(`users/${handle}`);
   }
 
-  getUserRepos (handle: string): Observable<GithubRepo[]> {
-    return this.doGet(`users/${handle}/repos`);
+  getUserRepos (handle: string, page: number = 0): Observable<GithubRequestData> {
+    return this.doGet(`users/${handle}/repos`, { page });
   }
 
-  getUserGists (handle: string): Observable<GithubGist[]> {
+  getUserGists (handle: string): Observable<GithubRequestData> {
     return this.doGet(`users/${handle}/gists`);
+  }
+
+  getRepoLanguages (repo: GithubRepo) {
+    return this.doGet(`repos/${repo.full_name}/languages`)
+      .map((response : GithubRequestData) => response.data);
   }
 
   private doGet(requestUrl: string, params: Object = {}) {
@@ -42,12 +53,42 @@ export class GithubService {
 
 
     return this.http.get(url, { search })
-      .map(this.extractData)
+      .map(this.extractData.bind(this))
       .catch(this.handleError);
   }
 
-  private extractData(res: Response) {
-    return res.json();
+  private extractLastPaginationIndexFromLinkString (linkString: string) {
+    if (!linkString) {
+      return 0;
+    }
+
+
+    const lastLink = linkString
+      .split(',')
+      .map((link) => {
+        let linksInfo = link.split('; ');
+        return {
+          number: +linksInfo[0].split("&page=")[1].slice(0, -1),
+          type: linksInfo[1].split('"')[1]
+        }
+      })
+      .filter((linkPart) => linkPart.type === 'last');
+
+      if (lastLink.length > 0) {
+        return lastLink[0].number;
+      }
+
+      return 0;
+  }
+
+
+  private extractData(res: Response) : GithubRequestData {
+    const linkString = res.headers.get('link');
+
+    return {
+      data: res.json(),
+      last: this.extractLastPaginationIndexFromLinkString(linkString)
+    };
   }
 
   private handleError (error: any) {

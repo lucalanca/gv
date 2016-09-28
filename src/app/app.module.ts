@@ -38,7 +38,7 @@ import { routing,  appRoutingProviders }  from './app.routing';
     StoreModule.provideStore(rootReducer),
     StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
-        visible: true,
+        visible: false,
         position: 'right'
       })
     }),

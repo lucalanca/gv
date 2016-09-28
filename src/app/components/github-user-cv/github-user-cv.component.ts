@@ -22,6 +22,7 @@ export class GithubUserCvComponent implements OnInit {
   user: GithubUser;
   repos: GithubRepo[];
   gists: GithubGist[];
+  reposLanguages: Object;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -46,6 +47,7 @@ export class GithubUserCvComponent implements OnInit {
     this.selectFromStoreIntoProperty('user');
     this.selectFromStoreIntoProperty('repos');
     this.selectFromStoreIntoProperty('gists');
+    this.selectFromStoreIntoProperty('reposLanguages');
     this.store.dispatch(getUser(this.handle));
   }
 }
